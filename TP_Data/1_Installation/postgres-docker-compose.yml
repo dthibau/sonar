@@ -1,7 +1,6 @@
-version: '3'
 services:
-  postgresql:
-    image: postgres:13.5
+  sonar_postgresql:
+    image: postgres:15.6
     volumes:
       - sonar_db:/var/lib/postgresql
       - sonar_data:/var/lib/postgresql/data
@@ -13,8 +12,8 @@ services:
     ports:
       - 5432:5432
 
-  pgadmin4:
-    image: dpage/pgadmin4:7.1
+  sonar_pgadmin4:
+    image: dpage/pgadmin4:8.5
     environment:
       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
       PGADMIN_DEFAULT_PASSWORD: "admin"
@@ -23,7 +22,7 @@ services:
     volumes:
       - sonar_pgadmin:/var/lib/pgadmin
     depends_on:
-      - postgresql
+      - sonar_postgresql
     networks:
       - back
 volumes:
