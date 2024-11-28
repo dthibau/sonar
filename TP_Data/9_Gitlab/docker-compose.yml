@@ -1,0 +1,42 @@
+services:
+  gitlab.formation.org:
+    image: gitlab/gitlab-ce:latest
+    hostname: gitlab.formation.org
+    container_name: gitlab
+    ports:
+    - '22:22'    
+    - 443:443
+    - 80:80
+    - '5050:5050'
+    volumes:
+      - /home/dthibau/Formations/GitLab/GITLAB_HOME/config:/etc/gitlab
+      - /home/dthibau/Formations/GitLab/GITLAB_HOME/logs:/var/log/gitlab
+      - /home/dthibau/Formations/GitLab/GITLAB_HOME/data:/var/opt/gitlab
+    networks:
+      - gitlab-network
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest 
+    container_name: gitlab-runner
+    volumes:
+      - /home/dthibau/Formations/GitLab/Serveurs:/home/gitlab-runner:Z
+      - /home/dthibau/Formations/GitLab/GITLAB_RUNNER/config:/etc/gitlab-runner:Z
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gitlab-network
+  gitlab-sonar:
+    image: sonarqube
+    container_name: gitlab-sonar
+    ports:
+    - '9000:9000' 
+    volumes:   
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data 
+    networks:
+      - gitlab-network
+
+networks:
+  gitlab-network:
+  
+volumes:
+  sonarqube_conf:
+  sonarqube_data:

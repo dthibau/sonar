@@ -1,1 +1,0 @@
- 2pyXhrsrc/package/file_in_package.py
